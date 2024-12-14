@@ -12,7 +12,7 @@ Welcome to **CalenWork**, a modern and feature-rich event management tool design
 
 ## 🎥 Project Demo
 
-[Watch the Demo Video](https://your-video-link-here.com)
+[Watch the Demo Video](https://drive.google.com/file/d/1p_AZ7MWlJsC1ZlBvvMCU-CCzCqFZNR0J/view?usp=drive_link)
 
 
 ## 🚀 Project Overview
