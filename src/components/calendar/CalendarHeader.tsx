@@ -29,35 +29,42 @@ export function CalendarHeader({
   onExport,
 }: CalendarHeaderProps) {
   return (
-    <div className="flex flex-col space-y-4 mb-6 w-full">
-      <div className="flex items-center justify-between w-full">
-        <h1 className="text-3xl font-cal text-foreground">Calendar</h1>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="icon" onClick={onPreviousMonth}>
+    <div className="flex flex-col space-y-4 mb-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onPreviousMonth}
+            className="rounded-lg border-gray-200 dark:border-gray-800"
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <div className="w-[140px] text-center">
-            <span className="text-sm font-medium">{format(currentDate, 'MMMM yyyy')}</span>
-          </div>
-          <Button variant="outline" size="icon" onClick={onNextMonth}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onNextMonth}
+            className="rounded-lg border-gray-200 dark:border-gray-800"
+          >
             <ChevronRight className="h-4 w-4" />
           </Button>
+          <h2 className="text-xl font-semibold">
+            {format(currentDate, 'MMMM yyyy')}
+          </h2>
         </div>
-      </div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="relative flex-grow max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search events..."
-            value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-9 w-full bg-background border-border"
-          />
-        </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center space-x-2">
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-400" />
+            <Input
+              placeholder="Search events..."
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-9 bg-transparent border-gray-200 dark:border-gray-800"
+            />
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" className="border-gray-200 dark:border-gray-800">
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
@@ -71,7 +78,7 @@ export function CalendarHeader({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={onAddEvent} size="sm">
+          <Button onClick={onAddEvent} className="bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
             <Plus className="h-4 w-4 mr-2" />
             Add Event
           </Button>

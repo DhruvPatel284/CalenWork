@@ -1,44 +1,39 @@
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, parseISO } from 'date-fns';
 import { Event } from '@/types/calendar';
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth } from 'date-fns';
 
-export const generateCalendarDays = (date: Date) => {
-  const start = startOfWeek(startOfMonth(date));
-  const end = endOfWeek(endOfMonth(date));
+export function generateCalendarDays(date: Date): Date[] {
+  const startOfTheSelectedMonth = startOfMonth(date);
+  const endOfTheSelectedMonth = endOfMonth(date);
+  const startDate = startOfWeek(startOfTheSelectedMonth);
+  const endDate = endOfWeek(endOfTheSelectedMonth);
 
-  return eachDayOfInterval({ start, end });
-};
+  const days = eachDayOfInterval({ start: startDate, end: endDate });
 
-export const hasEventOverlap = (
+  return days.filter(day => {
+    if (isSameMonth(day, date)) return true;
+    if (day < startOfTheSelectedMonth) return true;
+    // Only show days from next month if they're needed to complete the week
+    const dayOfWeek = day.getDay();
+    if (day > endOfTheSelectedMonth && dayOfWeek !== 0) return true;
+    return false;
+  });
+}
+
+export function hasEventOverlap(
   startTime: string,
   endTime: string,
   date: string,
   events: Event[],
   excludeEventId?: string
-): boolean => {
-  const dayEvents = events.filter(
+): boolean {
+  const eventsOnDay = events.filter(
     (event) => event.date === date && event.id !== excludeEventId
   );
 
-  const newStart = parseISO(`${date}T${startTime}`);
-  const newEnd = parseISO(`${date}T${endTime}`);
+  return eventsOnDay.some((event) => (
+    (startTime >= event.startTime && startTime < event.endTime) ||
+    (endTime > event.startTime && endTime <= event.endTime) ||
+    (startTime <= event.startTime && endTime >= event.endTime)
+  ));
+}
 
-  return dayEvents.some((event) => {
-    const existingStart = parseISO(`${event.date}T${event.startTime}`);
-    const existingEnd = parseISO(`${event.date}T${event.endTime}`);
-
-    return (
-      (newStart >= existingStart && newStart < existingEnd) ||
-      (newEnd > existingStart && newEnd <= existingEnd) ||
-      (newStart <= existingStart && newEnd >= existingEnd)
-    );
-  });
-};
-
-export const filterEvents = (events: Event[], searchTerm: string): Event[] => {
-  const term = searchTerm.toLowerCase();
-  return events.filter(
-    (event) =>
-      event.title.toLowerCase().includes(term) ||
-      event.description?.toLowerCase().includes(term)
-  );
-};

@@ -182,28 +182,29 @@ function App() {
     );
   });
 
-  // Precompute the boolean values for isCurrentMonth, isToday, isSelected
   const isCurrentMonthValue = (date: Date) => isSameMonth(date, currentDate);
   const isTodayValue = (date: Date) => isToday(date);
   const isSelectedValue = (date: Date) => isSameDay(date, selectedDate);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       <DndProvider backend={HTML5Backend}>
-        <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
-          <div className="flex justify-end mb-4">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-2xl font-cal">Calendar</h1>
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="rounded-full border-gray-200 dark:border-gray-800"
             >
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </div>
 
-          <div className="rounded-xl border bg-card text-card-foreground shadow">
+          <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
             <div className="p-6">
               <CalendarHeader
                 currentDate={currentDate}
@@ -218,9 +219,14 @@ function App() {
               <CalendarGrid
                 days={calendarDays}
                 dayProps={{
-                  isCurrentMonth: isCurrentMonthValue(selectedDate),
-                  isToday: isTodayValue(selectedDate),
-                  isSelected: isSelectedValue(selectedDate),
+                  //@ts-ignore
+                  isCurrentMonth: isCurrentMonthValue,
+                                    //@ts-ignore
+
+                  isToday: isTodayValue,
+                                    //@ts-ignore
+
+                  isSelected: isSelectedValue,
                   events: filteredEvents,
                   onSelectDate: handleSelectDate,
                   onDrop: handleDrop,

@@ -5,9 +5,9 @@ import { useDrop } from 'react-dnd';
 import { DayProps, Event } from '@/types/calendar';
 
 const categoryColors = {
-  work: 'bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200',
-  personal: 'bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-200',
-  other: 'bg-purple-200 text-purple-800 dark:bg-purple-800 dark:text-purple-200',
+  work: 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100',
+  personal: 'bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100',
+  other: 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100',
 };
 
 export const CalendarDay: React.FC<DayProps> = ({
@@ -35,28 +35,28 @@ export const CalendarDay: React.FC<DayProps> = ({
     <div
       ref={drop}
       className={cn(
-        'h-24 sm:h-28 md:h-32 p-2 transition-all duration-200 border-t dark:border-gray-700',
+        'h-full p-2 transition-all duration-200',
         {
-          'bg-blue-50 dark:bg-blue-900/20': isSelected,
-          'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50': !isSelected,
+          'bg-gray-50/80 dark:bg-gray-900/50': isSelected,
+          'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/30': !isSelected,
           'shadow-inner': isOver,
-          'opacity-50': !isCurrentMonth,
+          'opacity-40': !isCurrentMonth,
         }
       )}
       onClick={() => onSelectDate(date)}
     >
       <div className="flex justify-between items-start">
         <span
-          className={cn('text-sm font-medium', {
+          className={cn('inline-flex items-center justify-center text-sm font-medium w-7 h-7 rounded-full', {
             'text-gray-900 dark:text-gray-100': isCurrentMonth,
             'text-gray-400 dark:text-gray-500': !isCurrentMonth,
-            'bg-blue-600 dark:bg-blue-400 text-white dark:text-gray-900 rounded-full w-6 h-6 flex items-center justify-center': isToday,
+            'bg-black text-white dark:bg-white dark:text-black': isToday,
           })}
         >
           {format(date, 'd')}
         </span>
         {dayEvents.length > 0 && (
-          <div className="flex items-center gap-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-1.5 py-0.5 rounded-full">
+          <div className="flex items-center gap-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-1.5 py-0.5 rounded-full">
             <Calendar className="h-3 w-3" />
             <span className="text-[10px]">{dayEvents.length}</span>
           </div>

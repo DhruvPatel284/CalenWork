@@ -1,14 +1,14 @@
-export type EventCategory = 'work' | 'personal' | 'other';
-
 export interface Event {
   id: string;
   title: string;
   description?: string;
+  date: string;
   startTime: string;
   endTime: string;
-  date: string;
   category: EventCategory;
 }
+
+export type EventCategory = 'work' | 'personal' | 'other';
 
 export interface EventFormData {
   title: string;
@@ -27,3 +27,4 @@ export interface DayProps {
   onSelectDate: (date: Date) => void;
   onDrop: (date: Date, eventId: string) => void;
 }
+
